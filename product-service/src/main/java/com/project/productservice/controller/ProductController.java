@@ -5,6 +5,7 @@ import com.project.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +16,14 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("/add")
     public ResponseEntity<Long> addProducts(@RequestBody ProductRequest productRequest){
         long product_id = productService.addProduct(productRequest);
         return new ResponseEntity<>(product_id,HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/all")
     public ResponseEntity<List<ProductResponse>> getAllProducts(){
         List<ProductResponse> listOfProductResponse = productService.fetchAllProducts();
@@ -28,6 +31,7 @@ public class ProductController {
     }
 
 
+    @PreAuthorize("hasAuthority('Admin') || hasAuthority('Customer') || hasAuthority('SCOPE_internal')")
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable("id") Long productId){
         ProductResponse productResponse = productService.getProductById(productId);
