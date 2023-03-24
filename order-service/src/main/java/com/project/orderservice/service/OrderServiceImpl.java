@@ -11,22 +11,27 @@ import com.project.orderservice.model.OrderResponse;
 import com.project.orderservice.model.PaymentRequest;
 import com.project.orderservice.repository.OrderRepository;
 import lombok.CustomLog;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class OrderServiceImpl implements OrderService{
-    private final OrderRepository orderRepository;
-    private final ProductService productService;
-    private final PaymentService paymentService;
-    private final RestTemplate restTemplate;
+    @Autowired
+    private  OrderRepository orderRepository;
+    @Autowired
+    private  ProductService productService;
+    @Autowired
+    private  PaymentService paymentService;
+    @Autowired
+    private  RestTemplate restTemplate;
     @Override
     public long placeOrder(OrderRequest orderRequest) {
         //Order Entity - save the order status
@@ -42,7 +47,7 @@ public class OrderServiceImpl implements OrderService{
                 .orderDate(Instant.now())
                 .orderStatus("CREATED")
                 .build();
-        orderRepository.save(order);
+        order = orderRepository.save(order);
         log.info("Calling Payment Service to complete the payment...");
         String orderStatus = null;
         try{
