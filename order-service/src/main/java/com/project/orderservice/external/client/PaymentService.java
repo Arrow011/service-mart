@@ -16,7 +16,7 @@ public interface PaymentService {
     public ResponseEntity<Long> doPayment(@RequestBody PaymentRequest paymentRequest);
 
     @SneakyThrows
-    default void fallback(Exception e){
+    default ResponseEntity<Long> fallback(Exception e){
         throw new CustomException("Payment Service not available!!", "UNAVAILABLE",507);
     }
 }

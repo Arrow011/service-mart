@@ -15,7 +15,7 @@ public interface ProductService {
     @PutMapping("/updateQuantity/{id}")
     ResponseEntity<Void> updateProductQuantity(@PathVariable("id") long productId, @RequestParam("quantity") long quantity);
     @SneakyThrows
-    default void fallback(Exception e){
+    default ResponseEntity<Void> fallback(Exception e){
         throw new CustomException("Product Service not available!!", "UNAVAILABLE",507);
     }
 }
