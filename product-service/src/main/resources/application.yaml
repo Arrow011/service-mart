@@ -14,7 +14,7 @@ spring:
   application:
     name: PRODUCT-SERVICE
   config:
-    import: configserver:http://localhost:8289
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:8289}
 
 
 # ${ENVIRONMENT_VARIABLE} if environment variable present it will use it else the second param

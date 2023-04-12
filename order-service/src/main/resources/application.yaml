@@ -15,7 +15,7 @@ spring:
   application:
     name: ORDER-SERVICE
   config:
-    import: configserver:http://localhost:8289
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:8289}
   security:
     oauth2:
       resourceserver:
